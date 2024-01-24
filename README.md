@@ -2,7 +2,7 @@
 
 Team Members: Jaxon, Braxton, Frank, Shawn
 
-Proposed Meeting Schedule: Fridays, Time TBD
+Proposed Meeting Schedule: Fridays, 4PM via MS Teams
 
 Schedule of Scrum Masters: TBD
 
