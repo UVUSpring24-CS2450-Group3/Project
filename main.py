@@ -16,7 +16,7 @@ def main():
         else:
             print(f"Loaded program into memory:\n{sim.memory}")
 
-        
+    sim.run()
 
 
 if __name__ == "__main__":
