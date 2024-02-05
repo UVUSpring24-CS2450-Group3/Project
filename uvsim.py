@@ -30,16 +30,9 @@ class UVSim:
 		self.pc += 1
 
 		# parse instruction (it's in base 10)
-		opcode = 0
-		tmp_instr = instr
+		opcode = abs(instr) // 100
 		if instr < 0:
-			while tmp_instr < -99:
-				tmp_instr += 100
-				opcode += 1
-		else:	
-			while tmp_instr > 99:
-				tmp_instr -= 100
-				opcode += 1
+			opcode = -opcode
 
 		memory_loc = instr % 100
 
