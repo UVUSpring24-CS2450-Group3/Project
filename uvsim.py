@@ -31,6 +31,7 @@ class UVSim:
 
 		# parse instruction (it's in base 10)
 		opcode = abs(instr) // 100
+		operant = instr % 100
 		if instr < 0:
 			opcode = -opcode
 
@@ -39,7 +40,31 @@ class UVSim:
 		match opcode:
 			case 43:
 				self.running = False
-			case _:
+			case 10:
+				value = int(input("input a value"))
+				self.memory[operant] = value
+			case 11:
+				print("Output:" self.memory[operant])
+			case 20:
+				self.acc = self.memory[operant]
+			case 21:
+				self.memory[operant] = self.acc
+			case 30:
 				pass
+			case 31:
+				pass
+			case 32:
+				pass
+			case 33:
+				pass
+			case 40:
+				pass
+			case 41:
+				pass
+			case 42:
+				pass
+			case 43:
+				pass
+			
 
 		print(f"{self.pc - 1}: {opcode}, {memory_loc}")
