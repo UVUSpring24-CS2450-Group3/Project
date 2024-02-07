@@ -50,13 +50,13 @@ class UVSim:
 			case 21:
 				self.memory[operant] = self.acc
 			case 30:
-				pass
+				self.acc += self.memory[operant]
 			case 31:
-				pass
+				self.acc -= self.memory[operant]
 			case 32:
-				pass
+				self.acc = self.acc / self.memory[operant]
 			case 33:
-				pass
+				self.acc = self.acc * self.memory[operant]
 			case 40:
 				pass
 			case 41:
