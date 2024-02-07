@@ -58,11 +58,13 @@ class UVSim:
 			case 33:
 				pass
 			case 40:
-				pass
+				self.pc = operant
 			case 41:
-				pass
+				if self.acc < 0:
+					self.pc = operant
 			case 42:
-				pass
+				if self.acc == 0:
+					self.pc = operant
 			case 43:
 				pass
 			
