@@ -1,5 +1,8 @@
 class UVSim:
 	def __init__(self):
+		self.reset()
+
+	def reset(self):
 		# Create memory with length 100 words
 		self.memory = [0]*100
 
@@ -8,6 +11,9 @@ class UVSim:
 
 		# Accumulator register
 		self.acc = 0
+
+		# Not running
+		self.running = False
 	
 	def loadProgram(self, data):
 		# Verify we can copy all program data into memory
@@ -40,7 +46,7 @@ class UVSim:
 				succeeded = False
 				while not succeeded:
 					try:
-						value = int(input())
+						value = int(input(""))
 						if value > 9999 or value < -9999:
 							raise ValueError()
 						succeeded = True

@@ -13,3 +13,6 @@ Source Control: GitHub
 Project Management: Microsoft Teams
 
 Chosen Project: #4
+
+
+To run tests, do `pytest tests.py`
