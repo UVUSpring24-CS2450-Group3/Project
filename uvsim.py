@@ -35,16 +35,14 @@ class UVSim:
 		if instr < 0:
 			opcode = -opcode
 
-		memory_loc = instr % 100
-
 		match opcode:
 			case 43:
 				self.running = False
 			case 10:
-				value = int(input("input a value"))
+				value = int(input())
 				self.memory[operant] = value
 			case 11:
-				print("Output:" self.memory[operant])
+				print(self.memory[operant])
 			case 20:
 				self.acc = self.memory[operant]
 			case 21:
@@ -54,9 +52,9 @@ class UVSim:
 			case 31:
 				self.acc -= self.memory[operant]
 			case 32:
-				self.acc = self.acc / self.memory[operant]
+				self.acc /= self.memory[operant]
 			case 33:
-				self.acc = self.acc * self.memory[operant]
+				self.acc *= self.memory[operant]
 			case 40:
 				self.pc = operant
 			case 41:
@@ -69,4 +67,4 @@ class UVSim:
 				pass
 			
 
-		print(f"{self.pc - 1}: {opcode}, {memory_loc}")
+		#print(f"{self.pc - 1}: acc:{self.acc} opc:{opcode}, operand:{operant}")

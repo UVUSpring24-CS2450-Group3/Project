@@ -2,7 +2,7 @@ from uvsim import UVSim
 
 def main():
     sim = UVSim()
-    with open("tests/Test1.txt", "r") as file:
+    with open("tests/Test2.txt", "r") as file:
         rawNumbers = file.read().split("\n")
         intNumbers = []
         try:
