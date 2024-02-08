@@ -36,11 +36,18 @@ class UVSim:
 			opcode = -opcode
 
 		match opcode:
-			case 43:
-				self.running = False
 			case 10:
-				value = int(input())
-				self.memory[operant] = value
+				succeeded = False
+				while not succeeded:
+					try:
+						value = int(input())
+						if value > 9999 or value < -9999:
+							raise ValueError()
+						succeeded = True
+						self.memory[operant] = value
+					except ValueError:
+						print("Enter a value between -9999 and 9999 (inclusive)")
+				
 			case 11:
 				print(self.memory[operant])
 			case 20:
@@ -64,7 +71,10 @@ class UVSim:
 				if self.acc == 0:
 					self.pc = operant
 			case 43:
-				pass
+				self.running = False
+			case _:
+				print(f"Tried to execute undefined opcode {opcode}. Halting...")
+				self.running = False
 			
 
 		#print(f"{self.pc - 1}: acc:{self.acc} opc:{opcode}, operand:{operant}")
