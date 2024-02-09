@@ -1,7 +1,10 @@
 from uvsim import UVSim
 
+
 def get_input():
 	return ""
+
+
 
 def test_add(monkeypatch):
 	sim = UVSim()
@@ -64,3 +67,87 @@ def test_sub(monkeypatch):
 	sim.step()
 
 	assert sim.acc == 1618
+
+def test_divide(monkeypatch):
+	sim = UVSim()
+	sim.loadProgram([1098, 1099, 2098, 3299, 4300])
+	monkeypatch.setattr('builtins.input', lambda _: "155")
+	sim.step()
+	monkeypatch.setattr('builtins.input', lambda _: "5")
+	sim.step()
+	sim.step()
+	sim.step()
+	sim.step()
+	assert sim.acc == 31
+
+	sim.reset()
+	sim.loadProgram([1098, 2098, 2199, 2099, 4300])
+	monkeypatch.setattr('builtins.input', lambda _: "300")
+	sim.step()
+	monkeypatch.setattr('builtins.input', lambda _: "-5")
+	sim.step()
+	sim.step()
+	sim.step()
+	sim.step()
+	assert sim.acc == -60
+ 
+def test_multi(monkeypatch):
+	sim = UVSim()
+	sim.loadProgram([1098, 1099, 2098, 3299, 4300])
+	monkeypatch.setattr('builtins.input', lambda _: "12")
+	sim.step()
+	monkeypatch.setattr('builtins.input', lambda _: "13")
+	sim.step()
+	sim.step()
+	sim.step()
+	sim.step()
+	assert sim.acc == 156
+
+	sim.reset()
+	sim.loadProgram([1098, 2098, 2199, 2099, 4300])
+	monkeypatch.setattr('builtins.input', lambda _: "12")
+	sim.step()
+	monkeypatch.setattr('builtins.input', lambda _: "-13")
+	sim.step()
+	sim.step()
+	sim.step()
+	sim.step()
+	assert sim.acc == -156
+
+def test_load(monkeypatch):
+	sim = UVSim()
+	sim.loadProgram([1098, 1099, 2098, 2099, 4300])
+	monkeypatch.setattr('builtins.input', lambda _: "120")
+	sim.step()
+	monkeypatch.setattr('builtins.input', lambda _: "130")
+	sim.step()
+	sim.step()
+	assert sim.acc == 120
+	sim.step()
+	assert sim.acc == 130 
+	sim.step()
+
+def test_store(monkeypatch):
+    sim = UVSim()
+    sim.loadProgram([1098, 2098, 2199, 2099, 4300])
+    monkeypatch.setattr('builtins.input', lambda _: "120")
+    sim.step()
+    sim.step()
+    assert sim.acc == 120
+    sim.step()
+    sim.step()
+    assert sim.acc == 120
+    sim.step()
+    
+    sim.reset()
+    sim.loadProgram([1098, 2098, 2199, 2099, 4300])
+    monkeypatch.setattr('builtins.input', lambda _: "5255")
+    sim.step()
+    sim.step()
+    sim.step()
+    sim.step()
+    sim.step()
+    assert sim.acc == 5255
+    
+
+
