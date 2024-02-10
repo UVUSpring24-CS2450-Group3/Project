@@ -12,24 +12,39 @@ UVSim is a simple virtual machine simulator designed to help computer science st
 
 Python 3.x (https://www.python.org/downloads/)
 
+pytest (https://docs.pytest.org/en/8.0.x/)
+
+
 #### Installing the Repository
 Clone or download the UVSim repository from GitHub: [link_to_repo]
 Navigate to the project directory in your terminal or command prompt.
 
 ## Usage:
 
-Load a BasicML program into the UVSim:
+### How to start: 
+```
+python main.py your_program.txt
+```
 
-Create a text file containing your BasicML program. Each instruction should occupy one line, with the format: OPCODE OPERAND. For example: 1001 120.
-Run the following command in your terminal: python uvsim.py your_program.txt
-Execute the program:
+### How to run tests:
+```
+pytest tests.py
+```
+
+Create a text file containing your BasicML program. Each instruction should occupy one line, with the format: OPCODE OPERAND. For example: 
+```
+1001
+1101
+```
+#### Execute the program
 
 Once the program is loaded, the UVSim will start executing instructions automatically.
 You can observe the output of WRITE instructions displayed in the terminal.
 Interact with the program (if necessary):
 
 If the program contains READ instructions, the UVSim will prompt you to input values from the keyboard when it encounters those instructions.
-Monitor program execution:
+
+#### Monitor program execution:
 
 The UVSim will continue executing instructions until it encounters a HALT instruction or reaches the end of the program.
 BasicML Vocabulary:
