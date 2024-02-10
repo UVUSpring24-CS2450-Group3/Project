@@ -81,7 +81,7 @@ def test_divide(monkeypatch):
 	assert sim.acc == 31
 
 	sim.reset()
-	sim.loadProgram([1098, 2098, 2199, 2099, 4300])
+	sim.loadProgram([1098, 1099, 2098, 3299, 4300])
 	monkeypatch.setattr('builtins.input', lambda _: "300")
 	sim.step()
 	monkeypatch.setattr('builtins.input', lambda _: "-5")
@@ -93,7 +93,7 @@ def test_divide(monkeypatch):
  
 def test_multi(monkeypatch):
 	sim = UVSim()
-	sim.loadProgram([1098, 1099, 2098, 3299, 4300])
+	sim.loadProgram([1098, 1099, 2099, 3398, 4300])
 	monkeypatch.setattr('builtins.input', lambda _: "12")
 	sim.step()
 	monkeypatch.setattr('builtins.input', lambda _: "13")
@@ -104,7 +104,7 @@ def test_multi(monkeypatch):
 	assert sim.acc == 156
 
 	sim.reset()
-	sim.loadProgram([1098, 2098, 2199, 2099, 4300])
+	sim.loadProgram([1098, 1099, 2098, 3399, 4300])
 	monkeypatch.setattr('builtins.input', lambda _: "12")
 	sim.step()
 	monkeypatch.setattr('builtins.input', lambda _: "-13")
