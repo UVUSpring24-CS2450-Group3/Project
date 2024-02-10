@@ -1,8 +1,21 @@
 from uvsim import UVSim
+import sys
 
 def main():
+    if len(sys.argv) != 2:
+        print("Usage: python main.py <path to program>")
+        return
+
+    fname = sys.argv[1]
+
+    try:
+        file = open(fname, "r")
+    except FileNotFoundError:
+        print(f"Failed to open file '{sys.argv[1]}'")
+        return
+    
     sim = UVSim()
-    with open("tests/Test2.txt", "r") as file:
+    with file:
         rawNumbers = file.read().split("\n")
         intNumbers = []
         try:
@@ -14,7 +27,7 @@ def main():
         if not sim.loadProgram(intNumbers):
             print("Failed to load program data into simluator")
         else:
-            print(f"Loaded program into memory:\n{sim.memory}")
+            print(f"Successfully loaded program into memory. Executing...")
 
     sim.run()
 
