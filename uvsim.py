@@ -1,8 +1,7 @@
 class UVSim:
-    def __init__(self):
+    def __init__(self, debug=False):
+        self.debug = debug
         self.reset()
-
-        self.debug = True
 
     def reset(self):
         # Create memory with length 100 words
@@ -14,8 +13,10 @@ class UVSim:
         # Accumulator register
         self.acc = 0
 
-        # Not running
-        self.running = False
+        if self.debug:
+            self.running = True
+        else:
+            self.running = False
     
     def loadProgram(self, data):
         # Verify we can copy all program data into memory
@@ -32,7 +33,12 @@ class UVSim:
         self.running = True
         while self.running:
             self.step()
+
     def step(self):
+        # Don't allow execution if running = False
+        if not self.running:
+            return
+
         # Load instruction from memory with program counter
         instr = self.memory[self.pc]
         self.pc += 1
@@ -87,5 +93,5 @@ class UVSim:
             case _:
                 print(f"Tried to execute undefined opcode {opcode}. Halting...")
                 self.running = False
-            
+                raise ValueError(f"Tried to execute undefined opcode {opcode}. Halting...")
 

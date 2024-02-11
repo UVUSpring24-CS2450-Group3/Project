@@ -7,7 +7,7 @@ def get_input():
 
 
 def test_add(monkeypatch):
-    sim = UVSim()
+    sim = UVSim(debug=True)
     """
     RDKB #98
     RDKB #99
@@ -28,7 +28,7 @@ def test_add(monkeypatch):
     assert sim.acc == 17
 
 def test_sub(monkeypatch):
-    sim = UVSim()
+    sim = UVSim(debug=True)
     """
     RDKB #98
     RDKB #99
@@ -69,7 +69,7 @@ def test_sub(monkeypatch):
     assert sim.acc == 1618
 
 def test_divide(monkeypatch):
-    sim = UVSim()
+    sim = UVSim(debug=True)
     sim.loadProgram([1098, 1099, 2098, 3299, 4300])
     monkeypatch.setattr('builtins.input', lambda _: "155")
     sim.step()
@@ -92,7 +92,7 @@ def test_divide(monkeypatch):
     assert sim.acc == -60
  
 def test_multi(monkeypatch):
-    sim = UVSim()
+    sim = UVSim(debug=True)
     sim.loadProgram([1098, 1099, 2099, 3398, 4300])
     monkeypatch.setattr('builtins.input', lambda _: "12")
     sim.step()
@@ -115,7 +115,7 @@ def test_multi(monkeypatch):
     assert sim.acc == -156
 
 def test_load(monkeypatch):
-    sim = UVSim()
+    sim = UVSim(debug=True)
     sim.loadProgram([1098, 1099, 2098, 2099, 4300])
     monkeypatch.setattr('builtins.input', lambda _: "120")
     sim.step()
@@ -128,7 +128,7 @@ def test_load(monkeypatch):
     sim.step()
 
 def test_store(monkeypatch):
-    sim = UVSim()
+    sim = UVSim(debug=True)
     sim.loadProgram([1098, 2098, 2199, 2099, 4300])
     monkeypatch.setattr('builtins.input', lambda _: "120")
     sim.step()
@@ -152,7 +152,7 @@ def test_store(monkeypatch):
 
 def test_branches(monkeypatch):
     # Test unconditional branch (40)
-    sim = UVSim()
+    sim = UVSim(debug=True)
     """
     0: RDKB #98
     1: BR #4
@@ -222,4 +222,50 @@ def test_branches(monkeypatch):
     
     assert sim.pc == 8
 
+def test_halt(monkeypatch):
+    sim = UVSim()
 
+    sim.loadProgram([4300, 4300, 4300])
+    sim.run()
+    
+    assert sim.pc == 1
+    assert sim.running == False
+
+def test_garbage_program(monkeypatch):
+    sim = UVSim(debug=True)
+
+    e = None
+    sim.loadProgram([420, 939292, 94034])
+
+    try:
+        sim.run()
+    except ValueError as error:
+        e = error
+
+    assert e is not None
+    assert str(e) == "Tried to execute undefined opcode 4. Halting..."
+
+    e = None
+    sim.reset()
+    sim.loadProgram([1098, 2098, 939292, 94034])
+
+    monkeypatch.setattr('builtins.input', lambda _: "100")
+    try:
+        sim.run()
+    except ValueError as error:
+        e = error
+
+    assert e is not None
+    assert str(e) == "Tried to execute undefined opcode 9392. Halting..."
+
+    e = None
+    sim.reset()
+    sim.loadProgram([1098, 2098, 4300])
+
+    monkeypatch.setattr('builtins.input', lambda _: "100")
+    try:
+        sim.run()
+    except ValueError as error:
+        e = error
+
+    assert e is None
