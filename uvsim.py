@@ -58,7 +58,7 @@ class UVSim:
                 succeeded = False
                 while not succeeded:
                     try:
-                        value = int(input(""))
+                        value = int(input("Enter a data word: "))
                         if value > 9999 or value < -9999:
                             raise ValueError()
                         succeeded = True
