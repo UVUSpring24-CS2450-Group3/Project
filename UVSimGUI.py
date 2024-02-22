@@ -1,5 +1,5 @@
 import tkinter as tk
-import UVSim as UVSim
+import uvsim as UVSim
 
 class UVSimGUI:
     def __init__(self, master):
