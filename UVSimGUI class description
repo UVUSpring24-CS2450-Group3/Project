@@ -38,7 +38,7 @@ Input Parameters: None.
 Return Value: None.
 Pre-conditions: The UVSim program must be executed.
 Post-conditions: Output of the UVSim program is displayed on the GUI.
-2. UVSim Class:
+2.UVSim Class:
 Purpose:
 The UVSim class represents the Universal Virtual Simulator core functionality. It handles loading programs into memory, executing instructions, and managing program flow.
 
