@@ -84,3 +84,32 @@ Branch to a specific location in memory if the accumulator is negative.
 #### BRANCHZERO (42): 
 Branch to a specific location in memory if the accumulator is zero.
 HALT (43): Pause the program.
+
+Using the GUI:
+--------------
+
+1. Input Data:
+   - Enter a data word in the provided entry field. The data word should be an integer value between -9999 and 9999, inclusive.
+   - Click the "Enter" button to input the data into the UVSim memory.
+
+2. Running Programs:
+   - Load a program into the UVSim memory using the `Load Program` option.
+   - Once a program is loaded, click the "Run Program" button to execute it.
+   - The UVSim will step through the program, executing each instruction, and display the output in the text area.
+
+3. Viewing Output:
+   - The output of the UVSim program will be displayed in the text area below the input fields.
+   - Each line of output corresponds to a debug message or program output generated during execution.
+
+4. Debugging (Optional):
+   - To enable debug mode, pass the `-d` or `--debug` flag when running the GUI:
+     ```
+     python uvsim_gui.py --debug
+     ```
+   - In debug mode, additional debug information will be displayed in the console as the program executes.
+
+5. Exiting the GUI:
+   - To exit the GUI, simply close the window or press the appropriate close button provided by your operating system.
+
+Note: The UVSim GUI provides a convenient interface for interacting with the UVSim, allowing users to input data, run programs, and view output easily. It is designed to be intuitive and user-friendly, making it suitable for both beginners and experienced users.
+
