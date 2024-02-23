@@ -46,8 +46,3 @@ class UVSimGUI:
         for line in self.uv_sim.debug_output:
             self.output_text.insert(tk.END, line + "\n")
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("UVSim GUI")
-    app = UVSimGUI(root)
-    root.mainloop()
