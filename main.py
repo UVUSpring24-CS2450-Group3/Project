@@ -1,6 +1,6 @@
 from uvsim import UVSim
 import sys
-
+from UVSimGUI import UVSimGUI
 def main():
     if len(sys.argv) != 2:
         print("Usage: python main.py <path to program>")
@@ -33,4 +33,8 @@ def main():
 
 
 if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("UVSim GUI")
+    app = UVSimGUI(root)
+    root.mainloop()
     main()
