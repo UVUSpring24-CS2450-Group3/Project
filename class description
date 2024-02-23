@@ -1,0 +1,80 @@
+UVSimGUI Class:
+Purpose:
+The UVSimGUI class serves as the graphical user interface for interacting with the Universal Virtual Simulator (UVSim). It provides a platform for users to input data, run programs, and view output.
+
+Functions:
+__init__(self, master)
+
+Purpose: Initializes the GUI with a master widget.
+Input Parameters: master - The master widget for the GUI.
+Return Value: None.
+Pre-conditions: The master widget must be initialized before creating an instance of this class.
+Post-conditions: The GUI is initialized and ready for user interaction.
+create_widgets(self)
+
+Purpose: Creates all the necessary widgets for the GUI, including labels, entry fields, and buttons.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: None.
+Post-conditions: All GUI widgets are created and displayed.
+enter_data(self)
+
+Purpose: Handles the event when the user enters data into the input entry field.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The GUI must be initialized.
+Post-conditions: Data entered by the user is processed and displayed.
+run_program(self)
+
+Purpose: Executes the program in the UVSim.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized and a program must be loaded.
+Post-conditions: The UVSim program is executed, and output is displayed.
+display_output(self)
+
+Purpose: Displays the output of the UVSim program.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim program must be executed.
+Post-conditions: Output of the UVSim program is displayed on the GUI.
+2. UVSim Class:
+Purpose:
+The UVSim class represents the Universal Virtual Simulator core functionality. It handles loading programs into memory, executing instructions, and managing program flow.
+
+Functions:
+__init__(self, debug=False)
+
+Purpose: Initializes the UVSim with an optional debug mode.
+Input Parameters: debug - Boolean flag indicating whether debug mode is enabled.
+Return Value: None.
+Pre-conditions: None.
+Post-conditions: The UVSim object is initialized and ready to load and execute programs.
+reset(self)
+
+Purpose: Resets the UVSim to its initial state.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized.
+Post-conditions: The UVSim is reset to its initial state.
+loadProgram(self, data)
+
+Purpose: Loads a program into the UVSim memory.
+Input Parameters: data - The program data to be loaded into memory.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized.
+Post-conditions: The program is loaded into memory.
+run(self)
+
+Purpose: Executes the loaded program.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized and a program must be loaded.
+Post-conditions: The loaded program is executed.
+step(self)
+
+Purpose: Executes a single step of the program.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized and a program must be loaded.
+Post-conditions: A single step of the program is executed.
