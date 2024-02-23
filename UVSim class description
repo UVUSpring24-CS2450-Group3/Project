@@ -1,0 +1,40 @@
+UVSim Class:
+Purpose:
+The UVSim class represents the Universal Virtual Simulator core functionality. It handles loading programs into memory, executing instructions, and managing program flow.
+
+Functions:
+__init__(self, debug=False)
+
+Purpose: Initializes the UVSim with an optional debug mode.
+Input Parameters: debug - Boolean flag indicating whether debug mode is enabled.
+Return Value: None.
+Pre-conditions: None.
+Post-conditions: The UVSim object is initialized and ready to load and execute programs.
+reset(self)
+
+Purpose: Resets the UVSim to its initial state.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized.
+Post-conditions: The UVSim is reset to its initial state.
+loadProgram(self, data)
+
+Purpose: Loads a program into the UVSim memory.
+Input Parameters: data - The program data to be loaded into memory.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized.
+Post-conditions: The program is loaded into memory.
+run(self)
+
+Purpose: Executes the loaded program.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized and a program must be loaded.
+Post-conditions: The loaded program is executed.
+step(self)
+
+Purpose: Executes a single step of the program.
+Input Parameters: None.
+Return Value: None.
+Pre-conditions: The UVSim must be initialized and a program must be loaded.
+Post-conditions: A single step of the program is executed.
