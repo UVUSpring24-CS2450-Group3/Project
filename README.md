@@ -100,15 +100,7 @@ Using the GUI:
 3. Viewing Output:
    - The output of the UVSim program will be displayed in the text area below the input fields.
    - Each line of output corresponds to a debug message or program output generated during execution.
-
-4. Debugging (Optional):
-   - To enable debug mode, pass the `-d` or `--debug` flag when running the GUI:
-     ```
-     python uvsim_gui.py --debug
-     ```
-   - In debug mode, additional debug information will be displayed in the console as the program executes.
-
-5. Exiting the GUI:
+4. Exiting the GUI:
    - To exit the GUI, simply close the window or press the appropriate close button provided by your operating system.
 
 Note: The UVSim GUI provides a convenient interface for interacting with the UVSim, allowing users to input data, run programs, and view output easily. It is designed to be intuitive and user-friendly, making it suitable for both beginners and experienced users.
