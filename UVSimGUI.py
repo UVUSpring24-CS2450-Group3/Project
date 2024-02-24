@@ -24,13 +24,11 @@ class UVSimGUI:
         self.output_text = tk.Text(self.master, height=10, width=50)
         self.output_text.pack()
 
-
         self.input_label = tk.Label(self.master, text="Console Input")
         self.input_label.pack()
 
         self.input_entry = tk.Entry(self.master, width=50)
         self.input_entry.pack()
-
 
         #TODO: allow for usage of the "Enter" key for submitting input
         self.submit_input = tk.Button(self.master, command=self.enter_input)
