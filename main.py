@@ -1,6 +1,7 @@
 from uvsim import UVSim
 import sys
 from UVSimGUI import UVSimGUI
+import tkinter as tk
 def main():
     if len(sys.argv) != 2:
         print("Usage: python main.py <path to program>")
@@ -23,9 +24,11 @@ def main():
                 intNumbers.append(int(num))
         except:
             print("Failed to parse program data")
+            exit(2)
 
         if not sim.loadProgram(intNumbers):
-            print("Failed to load program data into simluator")
+            print("Failed to load program data into simulator")
+            exit(1)
         else:
             print(f"Successfully loaded program into memory. Executing...")
 

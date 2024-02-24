@@ -1,5 +1,8 @@
 import tkinter as tk
-import uvsim as UVSim
+from tkinter import filedialog
+
+
+from uvsim import UVSim
 
 class UVSimGUI:
     def __init__(self, master):
@@ -8,15 +11,12 @@ class UVSimGUI:
 
         self.create_widgets()
 
+    def writeOutput(self, line):
+        self.output_text.insert(tk.END, line)
+
+
     def create_widgets(self):
-        self.input_label = tk.Label(self.master, text="Enter a data word:")
-        self.input_label.pack()
-
-        self.input_entry = tk.Entry(self.master)
-        self.input_entry.pack()
-
-        self.input_button = tk.Button(self.master, text="Enter", command=self.enter_data)
-        self.input_button.pack()
+        #TODO: organize buttons to match design
 
         self.output_label = tk.Label(self.master, text="Output:")
         self.output_label.pack()
@@ -24,18 +24,51 @@ class UVSimGUI:
         self.output_text = tk.Text(self.master, height=10, width=50)
         self.output_text.pack()
 
-        self.run_button = tk.Button(self.master, text="Run Program", command=self.run_program)
+
+        self.input_label = tk.Label(self.master, text="Console Input")
+        self.input_label.pack()
+
+        self.input_entry = tk.Entry(self.master, width=50)
+        self.input_entry.pack()
+
+
+        #TODO: allow for usage of the "Enter" key for submitting input
+        self.submit_input = tk.Button(self.master, command=self.enter_input)
+        self.submit_input.pack()
+
+        self.buttonFrame = tk.Frame(self.master)
+
+        self.file_button = tk.Button(self.buttonFrame, text="Load File", command=self.loadFile)
+        self.file_button.pack()
+
+        self.run_button = tk.Button(self.buttonFrame, text="Run Program", command=self.run_program)
         self.run_button.pack()
 
-    def enter_data(self):
+        self.buttonFrame.pack()
+
+    def enter_input(self):
         try:
             value = int(self.input_entry.get())
             if value > 9999 or value < -9999:
                 raise ValueError()
-            self.uv_sim.memory[self.uv_sim.pc] = value
-            self.uv_sim.pc += 1
         except ValueError:
             self.output_text.insert(tk.END, "Enter a value between -9999 and 9999 (inclusive)\n")
+
+    def loadFile(self):
+        filename = filedialog.askopenfilename()
+        with open(filename, "r") as file:
+            rawNumbers = file.read().split("\n")
+            intNumbers = []
+            try:
+                for num in rawNumbers:
+                    intNumbers.append(int(num))
+            except:
+                print("Failed to parse program data")
+                exit(2)
+
+            if not self.uv_sim.loadProgram(intNumbers):
+                print("Failed to load program data into simulator")
+                exit(1)
 
     def run_program(self):
         self.uv_sim.run()

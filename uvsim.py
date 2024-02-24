@@ -13,6 +13,13 @@ class UVSim:
         # Accumulator register
         self.acc = 0
 
+        # used to store the input from the GUI as characters
+        self.input = ""
+
+        # used to take store the output from the sim so that the
+        # gui can access it
+        self.output = ""
+
         if self.debug:
             self.running = True
         else:
@@ -35,6 +42,7 @@ class UVSim:
             self.step()
 
     def step(self):
+        self.output = ""
         # Don't allow execution if running = False
         if not self.running:
             return
@@ -50,7 +58,7 @@ class UVSim:
             opcode = -opcode
 
         if self.debug:
-            print(f"{self.pc - 1}: acc:{self.acc} opc:{opcode}, operand:{operant}")
+            self.output = f"{self.pc - 1}: acc:{self.acc} opc:{opcode}, operand:{operant}\n"
 
 
         match opcode:
@@ -58,16 +66,17 @@ class UVSim:
                 succeeded = False
                 while not succeeded:
                     try:
-                        value = int(input("Enter a data word: "))
+
+                        value = int(self.input)
                         if value > 9999 or value < -9999:
                             raise ValueError()
                         succeeded = True
                         self.memory[operant] = value
                     except ValueError:
-                        print("Enter a value between -9999 and 9999 (inclusive)")
+                        self.output = "Enter a value between -9999 and 9999 (inclusive)"
                 
             case 11:
-                print(self.memory[operant])
+                self.output = (self.memory[operant])
             case 20:
                 self.acc = self.memory[operant]
             case 21:
@@ -91,7 +100,7 @@ class UVSim:
             case 43:
                 self.running = False
             case _:
-                print(f"Tried to execute undefined opcode {opcode}. Halting...")
+                self.output = f"Tried to execute undefined opcode {opcode}. Halting..."
                 self.running = False
                 raise ValueError(f"Tried to execute undefined opcode {opcode}. Halting...")
 
