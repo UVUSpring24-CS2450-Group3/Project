@@ -14,7 +14,39 @@ class UVSimGUI:
     def writeOutput(self, line):
         self.output_text.insert(tk.END, line)
 
+    def create_widgets(self):
+        # Output display
+        self.output_label = tk.Label(self.master, text="Output:")
+        self.output_label.pack()
+        self.output_text = tk.Text(self.master, height=10, width=50)
+        self.output_text.pack()
 
+        # Input entry
+        self.input_label = tk.Label(self.master, text="Console Input:")
+        self.input_label.pack()
+        self.input_entry = tk.Entry(self.master, width=50)
+        self.input_entry.pack()
+
+        # Buttons
+        self.button_frame = tk.Frame(self.master)
+        self.load_button = tk.Button(self.button_frame, text="Load Program", command=self.load_program)
+        self.load_button.pack(side=tk.LEFT)
+        self.run_button = tk.Button(self.button_frame, text="Run Program", command=self.run_program)
+        self.run_button.pack(side=tk.LEFT)
+        self.button_frame.pack()
+
+    def load_program(self):
+        filename = filedialog.askopenfilename()
+        if filename:
+            with open(filename, "r") as file:
+                raw_numbers = file.readlines()
+                try:
+                    program = [int(num.strip()) for num in raw_numbers]
+                    self.uv_sim.load_program(program)
+                    self.write_output("Program loaded successfully.")
+                except ValueError:
+                    self.write_output("Error: Invalid program format.")
+                    
     def create_widgets(self):
         #TODO: organize buttons to match design
 
@@ -71,6 +103,13 @@ class UVSimGUI:
     def run_program(self):
         self.uv_sim.run()
         self.display_output()
+    def frankversion_run_program(self):
+        console_input = self.input_entry.get().strip()
+        if console_input:
+            self.uv_sim.set_console_input(console_input)
+        self.uv_sim.run()
+        self.display_output()
+
 
     def display_output(self):
         self.output_text.delete(1.0, tk.END)  # Clear previous output
