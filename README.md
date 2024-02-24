@@ -23,7 +23,7 @@ Navigate to the project directory in your terminal or command prompt.
 
 ### How to start: 
 ```
-python main.py your_program.txt
+python main.py
 ```
 
 ### How to run tests:
@@ -37,12 +37,14 @@ Create a text file containing your BasicML program. Each instruction should occu
 1101
 ```
 #### Execute the program
+To load a program, press the "load" button, and navigate to the desired file to be executed
 
-Once the program is loaded, the UVSim will start executing instructions automatically.
+Once the program is loaded, press the "Run" button to begin executing instructions.
 You can observe the output of WRITE instructions displayed in the terminal.
 Interact with the program (if necessary):
 
 If the program contains READ instructions, the UVSim will prompt you to input values from the keyboard when it encounters those instructions.
+Once input is entered into the required textbox, press Run to resume executing instructions
 
 #### Monitor program execution:
 
