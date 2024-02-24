@@ -1,4 +1,4 @@
-##UVSim Class:
+UVSim Class:
 Purpose:
 The UVSim class represents the Universal Virtual Simulator core functionality. It handles loading programs into memory, executing instructions, and managing program flow.
 
