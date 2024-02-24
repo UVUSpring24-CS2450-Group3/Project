@@ -14,7 +14,7 @@ class UVSimGUI:
     def writeOutput(self, line):
         self.output_text.insert(tk.END, line)
 
-    def create_widgets(self):
+    def Frankversion_create_widgets(self):
         # Output display
         self.output_label = tk.Label(self.master, text="Output:")
         self.output_label.pack()
@@ -35,7 +35,7 @@ class UVSimGUI:
         self.run_button.pack(side=tk.LEFT)
         self.button_frame.pack()
 
-    def load_program(self):
+    def Frankversion_load_program(self):
         filename = filedialog.askopenfilename()
         if filename:
             with open(filename, "r") as file:
