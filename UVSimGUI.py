@@ -7,14 +7,14 @@ from uvsim import UVSim
 class UVSimGUI:
     def __init__(self, master):
         self.master = master
-        self.uv_sim = UVSim(debug=True)  # Initialize UVSim with debug mode
+        self.uv_sim = UVSim()
 
         self.create_widgets()
 
-    def writeOutput(self, line):
+    def write_output(self, line):
         self.output_text.insert(tk.END, line)
 
-    def Frankversion_create_widgets(self):
+    def create_widgets(self):
         # Output display
         self.output_label = tk.Label(self.master, text="Output:")
         self.output_label.pack()
@@ -35,46 +35,19 @@ class UVSimGUI:
         self.run_button.pack(side=tk.LEFT)
         self.button_frame.pack()
 
-    def Frankversion_load_program(self):
+    def load_program(self):
         filename = filedialog.askopenfilename()
         if filename:
             with open(filename, "r") as file:
                 raw_numbers = file.readlines()
                 try:
                     program = [int(num.strip()) for num in raw_numbers]
-                    self.uv_sim.load_program(program)
+                    self.uv_sim.loadProgram(program)
                     self.write_output("Program loaded successfully.")
                 except ValueError:
                     self.write_output("Error: Invalid program format.")
-                    
-    def create_widgets(self):
-        #TODO: organize buttons to match design
 
-        self.output_label = tk.Label(self.master, text="Output:")
-        self.output_label.pack()
-
-        self.output_text = tk.Text(self.master, height=10, width=50)
-        self.output_text.pack()
-
-        self.input_label = tk.Label(self.master, text="Console Input")
-        self.input_label.pack()
-
-        self.input_entry = tk.Entry(self.master, width=50)
-        self.input_entry.pack()
-
-        #TODO: allow for usage of the "Enter" key for submitting input
-        self.submit_input = tk.Button(self.master, command=self.enter_input)
-        self.submit_input.pack()
-
-        self.buttonFrame = tk.Frame(self.master)
-
-        self.file_button = tk.Button(self.buttonFrame, text="Load File", command=self.loadFile)
-        self.file_button.pack()
-
-        self.run_button = tk.Button(self.buttonFrame, text="Run Program", command=self.run_program)
-        self.run_button.pack()
-
-        self.buttonFrame.pack()
+        self.uv_sim.start()
 
     def enter_input(self):
         try:
@@ -84,31 +57,19 @@ class UVSimGUI:
         except ValueError:
             self.output_text.insert(tk.END, "Enter a value between -9999 and 9999 (inclusive)\n")
 
-    def loadFile(self):
-        filename = filedialog.askopenfilename()
-        with open(filename, "r") as file:
-            rawNumbers = file.read().split("\n")
-            intNumbers = []
-            try:
-                for num in rawNumbers:
-                    intNumbers.append(int(num))
-            except:
-                print("Failed to parse program data")
-                exit(2)
-
-            if not self.uv_sim.loadProgram(intNumbers):
-                print("Failed to load program data into simulator")
-                exit(1)
 
     def run_program(self):
-        self.uv_sim.run()
-        self.display_output()
-    def frankversion_run_program(self):
-        console_input = self.input_entry.get().strip()
-        if console_input:
-            self.uv_sim.set_console_input(console_input)
-        self.uv_sim.run()
-        self.display_output()
+        # TODO: tie this segment to submission of the console input, then restart the sim either by enter key or button
+        if self.uv_sim.required_input:
+            self.uv_sim.input = self.input_entry.get()
+            self.uv_sim.hasInput = True
+            self.uv_sim.required_input = False
+
+        while(self.uv_sim.running):
+            output = self.uv_sim.step()
+            self.write_output(output)
+            if self.uv_sim.required_input:
+                break
 
 
     def display_output(self):
