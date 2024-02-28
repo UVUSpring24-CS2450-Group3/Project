@@ -32,6 +32,9 @@ class UVSim:
             self.running = True
         else:
             self.running = False
+            
+    def getmemory(self,adress):
+        return self.memory.read(adress)
     
     def loadProgram(self, data):
         # Verify we can copy all program data into memory
