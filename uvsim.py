@@ -88,6 +88,7 @@ class UVSim:
                         self.memory.write(operant, value)
                     except ValueError:
                         print("Enter a value between -9999 and 9999 (inclusive)\n")
+                        self.output += "Enter a value between -9999 and 9999 (inclusive)\n"
 
             case 11:
                 self.output += str(self.memory.read(operant))
