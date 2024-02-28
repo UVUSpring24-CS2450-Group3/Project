@@ -118,9 +118,11 @@ class UVSim:
                 UVSimSubCommand(self, operant).execute()
                 #self.acc -= self.memory.read(operant)
             case 32:
-                self.acc /= self.memory.read(operant)
+                UVSimDivCommand(self, operant).execute()
+                #self.acc /= self.memory.read(operant)
             case 33:
-                self.acc *= self.memory.read(operant)
+                UVSimDivCommand(self, operant).execute()
+                #self.acc *= self.memory.read(operant)
             case 40:
                 self.pc = operant
             case 41:
