@@ -1,3 +1,5 @@
+from uvsimmemory import UVSimMemory
+
 class UVSim:
     def __init__(self, debug=False):
         self.debug = debug
@@ -5,7 +7,7 @@ class UVSim:
 
     def reset(self):
         # Create memory with length 100 words
-        self.memory = [0]*100
+        self.memory = UVSimMemory(100) 
 
         # used to verify the presence of input for the GUI
         self.hasInput = False
@@ -33,12 +35,12 @@ class UVSim:
     
     def loadProgram(self, data):
         # Verify we can copy all program data into memory
-        if len(data) > len(self.memory):
+        if len(data) > self.memory.get_size():
             return False
 
         # Copy all data into memory
         for i in range(len(data)):
-            self.memory[i] = data[i]
+            self.memory.write(i, data[i])
 
         return True
 
@@ -57,7 +59,7 @@ class UVSim:
             return
 
         # Load instruction from memory with program counter
-        instr = self.memory[self.pc]
+        instr = self.memory.read(self.pc)
         self.pc += 1
 
         # parse instruction (it's in base 10)
@@ -68,7 +70,6 @@ class UVSim:
 
         if self.debug:
             self.output = f"{self.pc - 1}: acc:{self.acc} opc:{opcode}, operand:{operant}\n"
-
 
         match opcode:
             case 10:
@@ -84,24 +85,24 @@ class UVSim:
                         if value > 9999 or value < -9999:
                             raise ValueError()
                         succeeded = True
-                        self.memory[operant] = value
+                        self.memory.write(operant, value)
                     except ValueError:
-                        self.output += "Enter a value between -9999 and 9999 (inclusive)\n"
+                        print("Enter a value between -9999 and 9999 (inclusive)\n")
 
             case 11:
-                self.output += str((self.memory[operant]))
+                self.output += str(self.memory.read(operant))
             case 20:
-                self.acc = self.memory[operant]
+                self.acc = self.memory.read(operant)
             case 21:
-                self.memory[operant] = self.acc
+                self.memory.write(operant, self.acc)
             case 30:
-                self.acc += self.memory[operant]
+                self.acc += self.memory.read(operant)
             case 31:
-                self.acc -= self.memory[operant]
+                self.acc -= self.memory.read(operant)
             case 32:
-                self.acc /= self.memory[operant]
+                self.acc /= self.memory.read(operant)
             case 33:
-                self.acc *= self.memory[operant]
+                self.acc *= self.memory.read(operant)
             case 40:
                 self.pc = operant
             case 41:
