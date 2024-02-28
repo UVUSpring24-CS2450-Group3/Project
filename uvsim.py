@@ -1,4 +1,5 @@
 from uvsimmemory import UVSimMemory
+from uvsiminstructions import *
 
 class UVSim:
     def __init__(self, debug=False):
@@ -47,6 +48,16 @@ class UVSim:
 
         return True
 
+    def get_memory(self):
+        return self.memory
+
+    def get_acc(self):
+        return self.acc
+    
+    def set_acc(self, value):
+        self.acc = value
+
+
     def run(self):
         self.running = True
         while self.running:
@@ -77,14 +88,15 @@ class UVSim:
         match opcode:
             case 10:
                 #really awkward, but I can't come up with a better way
-                if not self.hasInput:
-                    self.required_input = True
-                    self.pc -= 1
-                    return self.output
+                #if not self.hasInput:
+                #    self.required_input = True
+                #    self.pc -= 1
+                #    return self.output
                 succeeded = False
                 while not succeeded:
                     try:
-                        value = int(self.input)
+                        #value = int(self.input)
+                        value = int(input("Enter a data word: "))
                         if value > 9999 or value < -9999:
                             raise ValueError()
                         succeeded = True
@@ -100,9 +112,11 @@ class UVSim:
             case 21:
                 self.memory.write(operant, self.acc)
             case 30:
-                self.acc += self.memory.read(operant)
+                #self.acc += self.memory.read(operant)
+                UVSimAddCommand(self, operant).execute()
             case 31:
-                self.acc -= self.memory.read(operant)
+                UVSimSubCommand(self, operant).execute()
+                #self.acc -= self.memory.read(operant)
             case 32:
                 self.acc /= self.memory.read(operant)
             case 33:
