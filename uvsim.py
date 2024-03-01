@@ -91,27 +91,27 @@ class UVSim:
 
 def get_command(opcode, uvsim, operant):
     if opcode == 10:
-        return UVSimInputCommand(uvsim, operant)
+        return UVSimInputCommand(uvsim, operant).execute()
     elif opcode == 11:
-        return UVSimOutputCommand(uvsim, operant)
+        return UVSimOutputCommand(uvsim, operant).execute()
     elif opcode == 20:
-        return UVSimLoadCommand(uvsim, operant)
+        return UVSimLoadCommand(uvsim, operant).execute()
     elif opcode == 21:
-        return UVSimStoreCommand(uvsim, operant)
+        return UVSimStoreCommand(uvsim, operant).execute()
     elif opcode == 30:
-        return UVSimAddCommand(uvsim, operant)
+        return UVSimAddCommand(uvsim, operant).execute()
     elif opcode == 31:
-        return UVSimSubCommand(uvsim, operant)
+        return UVSimSubCommand(uvsim, operant).execute()
     elif opcode == 32:
-        return UVSimDivCommand(uvsim, operant)
+        return UVSimDivCommand(uvsim, operant).execute()
     elif opcode == 33:
-        return UVSimMulCommand(uvsim, operant)
+        return UVSimMulCommand(uvsim, operant).execute()
     elif opcode == 40:
-        return UVSimBranchCommand(uvsim, operant)
+        return UVSimBranchCommand(uvsim, operant).execute()
     elif opcode == 41:
-        return UVSimBranchNegCommand(uvsim, operant)
+        return UVSimBranchNegCommand(uvsim, operant).execute()
     elif opcode == 42:
-        return UVSimBranchZeroCommand(uvsim, operant)
+        return UVSimBranchZeroCommand(uvsim, operant).execute()
     elif opcode == 43:
         return UVSimHaltCommand(uvsim)
     else:
