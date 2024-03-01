@@ -68,15 +68,10 @@ class UVSim:
 
     def step(self):
         self.output = ""
-        # Don't allow execution if running = False
         if not self.running:
             return
-
-        # Load instruction from memory with program counter
         instr = self.memory.read(self.pc)
         self.pc += 1
-
-        # parse instruction (it's in base 10)
         opcode = abs(instr) // 100
         operant = instr % 100
         if instr < 0:
@@ -85,57 +80,40 @@ class UVSim:
         if self.debug:
             self.output = f"{self.pc - 1}: acc:{self.acc} opc:{opcode}, operand:{operant}\n"
 
-        match opcode:
-            case 10:
-                #really awkward, but I can't come up with a better way
-                #if not self.hasInput:
-                #    self.required_input = True
-                #    self.pc -= 1
-                #    return self.output
-                succeeded = False
-                while not succeeded:
-                    try:
-                        #value = int(self.input)
-                        value = int(input("Enter a data word: "))
-                        if value > 9999 or value < -9999:
-                            raise ValueError()
-                        succeeded = True
-                        self.memory.write(operant, value)
-                    except ValueError:
-                        print("Enter a value between -9999 and 9999 (inclusive)\n")
-                        self.output += "Enter a value between -9999 and 9999 (inclusive)\n"
-
-            case 11:
-                self.output += str(self.memory.read(operant))
-            case 20:
-                self.acc = self.memory.read(operant)
-            case 21:
-                self.memory.write(operant, self.acc)
-            case 30:
-                #self.acc += self.memory.read(operant)
-                UVSimAddCommand(self, operant).execute()
-            case 31:
-                UVSimSubCommand(self, operant).execute()
-                #self.acc -= self.memory.read(operant)
-            case 32:
-                UVSimDivCommand(self, operant).execute()
-                #self.acc /= self.memory.read(operant)
-            case 33:
-                UVSimMulCommand(self, operant).execute()
-                #self.acc *= self.memory.read(operant)
-            case 40:
-                self.pc = operant
-            case 41:
-                if self.acc < 0:
-                    self.pc = operant
-            case 42:
-                if self.acc == 0:
-                    self.pc = operant
-            case 43:
-                self.running = False
-            case _:
-                self.output += f"Tried to execute undefined opcode {opcode}. Halting..."
-                self.running = False
-                raise ValueError(f"Tried to execute undefined opcode {opcode}. Halting...")
+        try:
+            command = get_command(opcode, self, operant)
+            command.execute()
+        except ValueError as e:
+            self.output += f"Error: {e}\n"
+            self.running = False
 
         return self.output
+
+def get_command(opcode, uvsim, operant):
+    if opcode == 10:
+        return UVSimInputCommand(uvsim, operant)
+    elif opcode == 11:
+        return UVSimOutputCommand(uvsim, operant)
+    elif opcode == 20:
+        return UVSimLoadCommand(uvsim, operant)
+    elif opcode == 21:
+        return UVSimStoreCommand(uvsim, operant)
+    elif opcode == 30:
+        return UVSimAddCommand(uvsim, operant)
+    elif opcode == 31:
+        return UVSimSubCommand(uvsim, operant)
+    elif opcode == 32:
+        return UVSimDivCommand(uvsim, operant)
+    elif opcode == 33:
+        return UVSimMulCommand(uvsim, operant)
+    elif opcode == 40:
+        return UVSimBranchCommand(uvsim, operant)
+    elif opcode == 41:
+        return UVSimBranchNegCommand(uvsim, operant)
+    elif opcode == 42:
+        return UVSimBranchZeroCommand(uvsim, operant)
+    elif opcode == 43:
+        return UVSimHaltCommand(uvsim)
+    else:
+        raise ValueError(f"Undefined opcode: {opcode}")
+
