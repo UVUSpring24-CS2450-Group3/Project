@@ -1,4 +1,4 @@
-UVSimGUI Class:
+https://github.com/UVUSpring24-CS2450-Group3/Project/tree/mainUVSimGUI Class:
 Purpose:
 The UVSimGUI class serves as the graphical user interface for interacting with the Universal Virtual Simulator (UVSim). It provides a platform for users to input data, run programs, and view output.
 
