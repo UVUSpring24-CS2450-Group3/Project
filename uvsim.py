@@ -86,32 +86,33 @@ class UVSim:
         except ValueError as e:
             self.output += f"Error: {e}\n"
             self.running = False
+            raise e
 
         return self.output
 
 def get_command(opcode, uvsim, operant):
     if opcode == 10:
-        return UVSimInputCommand(uvsim, operant).execute()
+        return UVSimInputCommand(uvsim, operant)
     elif opcode == 11:
-        return UVSimOutputCommand(uvsim, operant).execute()
+        return UVSimOutputCommand(uvsim, operant)
     elif opcode == 20:
-        return UVSimLoadCommand(uvsim, operant).execute()
+        return UVSimLoadCommand(uvsim, operant)
     elif opcode == 21:
-        return UVSimStoreCommand(uvsim, operant).execute()
+        return UVSimStoreCommand(uvsim, operant)
     elif opcode == 30:
-        return UVSimAddCommand(uvsim, operant).execute()
+        return UVSimAddCommand(uvsim, operant)
     elif opcode == 31:
-        return UVSimSubCommand(uvsim, operant).execute()
+        return UVSimSubCommand(uvsim, operant)
     elif opcode == 32:
-        return UVSimDivCommand(uvsim, operant).execute()
+        return UVSimDivCommand(uvsim, operant)
     elif opcode == 33:
-        return UVSimMulCommand(uvsim, operant).execute()
+        return UVSimMulCommand(uvsim, operant)
     elif opcode == 40:
-        return UVSimBranchCommand(uvsim, operant).execute()
+        return UVSimBranchCommand(uvsim, operant)
     elif opcode == 41:
-        return UVSimBranchNegCommand(uvsim, operant).execute()
+        return UVSimBranchNegCommand(uvsim, operant)
     elif opcode == 42:
-        return UVSimBranchZeroCommand(uvsim, operant).execute()
+        return UVSimBranchZeroCommand(uvsim, operant)
     elif opcode == 43:
         return UVSimHaltCommand(uvsim)
     else:

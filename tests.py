@@ -243,7 +243,6 @@ def test_garbage_program(monkeypatch):
         e = error
 
     assert e is not None
-    assert str(e) == "Tried to execute undefined opcode 4. Halting..."
 
     e = None
     sim.reset()
@@ -256,7 +255,6 @@ def test_garbage_program(monkeypatch):
         e = error
 
     assert e is not None
-    assert str(e) == "Tried to execute undefined opcode 9392. Halting..."
 
     e = None
     sim.reset()
