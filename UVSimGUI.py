@@ -78,12 +78,22 @@ class UVSimGUI:
         color = colorchooser.askcolor(title="Choose Primary Color", color=self.primary_color)
         if color[1]:  # Check if a color is chosen
             self.primary_color = color[1]
+            self.apply_color_scheme()
 
     def choose_off_color(self):
         """Open color chooser for off-color selection."""
         color = colorchooser.askcolor(title="Choose Off-Color", color=self.off_color)
         if color[1]:  # Check if a color is chosen
             self.off_color = color[1]
+            self.apply_color_scheme()
+
+    def apply_color_scheme(self):
+        """Apply selected color scheme to GUI."""
+        self.output_text.config(bg=self.off_color)
+        self.input_entry.config(bg=self.off_color)
+        self.load_button.config(bg=self.primary_color)
+        self.run_button.config(bg=self.primary_color)
+        self.settings_button.config(bg=self.primary_color)
 
     def load_program(self):
         """Load a program from file."""
@@ -127,4 +137,6 @@ class UVSimGUI:
         self.output_text.delete(1.0, tk.END)  # Clear previous output
         for line in self.uv_sim.debug_output:
             self.output_text.insert(tk.END, line + "\n")
+
+
 
