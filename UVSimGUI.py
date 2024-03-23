@@ -134,7 +134,16 @@ class UVSimGUI:
 
         self.save_and_run_button = tk.Button(self.program_window, text="Run Code", command=self.validate_and_run_program)
         self.save_and_run_button.pack()
+        self.save_button = tk.Button(self.program_window, text="Save Code", command=self.save_code)
+        self.save_button.pack()
         
+    def save_code(self):
+        filename = filedialog.asksaveasfile(mode='w', defaultextension='.txt')
+        if filename is None:
+            return
+        text_to_save = str(self.program_text.get(1.0, tk.END))
+        filename.write(text_to_save)
+        filename.close()
 
     def validate_and_run_program(self):
         program_data = self.program_text.get(0.0, "end-1c")
