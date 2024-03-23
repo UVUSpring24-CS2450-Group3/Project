@@ -111,6 +111,12 @@ class UVSimGUI:
         self.settings_button.config(bg=self.off_color)
         self.commit_input_button.config(bg=self.off_color)
 
+    def validate_program(self, program):
+        if len(program) > 100:
+            self.write_output("Error: Program size exceeds maximum allowed size of 100 entries (#00 - #99).\n")
+            return False
+        return True
+
     def load_program(self):
         """Load a program from file."""
         filename = filedialog.askopenfilename()
@@ -119,11 +125,9 @@ class UVSimGUI:
                 program_data = file.read()
                 
         data_split = program_data.split("\n")
-        if len(data_split) > 100:
-            self.write_output("Error: Program size exceeds maximum allowed size of 100 entries (#00 - #99).\n")
-            return
 
-        self.open_program_edit_window(program_data)
+        if self.validate_program(data_split):
+            self.open_program_edit_window(program_data)
 
     def open_program_edit_window(self, program):
         self.program_window = tk.Toplevel(self.master)
@@ -141,13 +145,14 @@ class UVSimGUI:
         data_split = program_data.split("\n")
         data = [int(x.strip()) for x in data_split]
 
-        self.uv_sim.loadProgram(data)
-        self.loaded_program = True
-        self.write_output("Program loaded successfully.\n")
+        if self.validate_program(data_split):
+            self.uv_sim.loadProgram(data)
+            self.loaded_program = True
+            self.write_output("Program loaded successfully.\n")
 
-        self.program_window.destroy()
-        self.uv_sim.start()
-        self.run_program()
+            self.program_window.destroy()
+            self.uv_sim.start()
+            self.run_program()
 
     def check_input(self):
         if self.sim_needs_input:
