@@ -108,16 +108,33 @@ class UVSimGUI:
         filename = filedialog.askopenfilename()
         if filename:
             with open(filename, "r") as file:
-                raw_numbers = file.readlines()
-                try:
-                    program = [int(num.strip()) for num in raw_numbers]
-                    self.uv_sim.loadProgram(program)
-                    self.write_output("Program loaded successfully.\n")
-                    self.loaded_program = True
-                except ValueError:
-                    self.write_output("Error: Invalid program format.\n")
+                program_data = file.read()
 
+        self.open_program_edit_window(program_data)
+
+    def open_program_edit_window(self, program):
+        self.program_window = tk.Toplevel(self.master)
+        self.program_text = tk.Text(self.program_window)
+        self.program_text.insert(tk.END, program)
+
+        self.program_text.pack(expand=True, fill=tk.BOTH)
+
+        self.save_and_run_button = tk.Button(self.program_window, text="Run Code", command=self.validate_and_run_program)
+        self.save_and_run_button.pack()
+        
+
+    def validate_and_run_program(self):
+        program_data = self.program_text.get(0.0, "end-1c")
+        data_split = program_data.split("\n")
+        data = [int(x.strip()) for x in data_split]
+
+        self.uv_sim.loadProgram(data)
+        self.loaded_program = True
+        self.write_output("Program loaded successfully.\n")
+
+        self.program_window.destroy()
         self.uv_sim.start()
+        self.run_program()
 
     def check_input(self):
         if self.sim_needs_input:
