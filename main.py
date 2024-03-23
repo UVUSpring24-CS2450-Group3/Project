@@ -1,6 +1,6 @@
 from uvsim import UVSim
 import sys
-from uvsimgui import UVSimGUI
+from UVSimGUI import UVSimGUI
 import tkinter as tk
 
 """
