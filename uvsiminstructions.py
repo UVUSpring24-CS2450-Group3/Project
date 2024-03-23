@@ -1,9 +1,13 @@
+import time
+
 class UVSimInputCommand:
     def __init__(self, uvsim, operand):
         self.uvsim = uvsim
         self.operand = operand
 
     def execute(self):
+        """
+        CLI MODE
         succeeded = False
         while not succeeded:
             try:
@@ -14,6 +18,28 @@ class UVSimInputCommand:
                 self.uvsim.get_memory().write(self.operand, value)
             except ValueError:
                 print("Enter a value between -9999 and 9999 (inclusive)\n")
+        """
+        try:
+           # print("welp")
+            text = self.uvsim.gui_handle.get_output_text()
+            if not self.uvsim.gui_handle.input_ready_for_sim:
+                self.uvsim.gui_handle.write_output("Enter a data word: \n")
+                self.uvsim.gui_handle.sim_needs_input = True
+
+                # Hack to force reexecution of this instruction
+                self.uvsim.pc -= 1
+            else:
+                value = int(text)
+                if value > 9999 or value < -9999:
+                    raise ValueError()
+                self.uvsim.get_memory().write(self.operand, value)
+                self.uvsim.gui_handle.write_output("Continuing execution...\n")
+                self.uvsim.gui_handle.sim_needs_input = False
+                self.uvsim.gui_handle.input_ready_for_sim = False
+                self.uvsim.gui_handle.clear_output_text()
+
+        except ValueError:
+            self.uvsim.gui_handle.write_output("Enter a value between -9999 and 9999 (inclusive)\n")
 
 class UVSimOutputCommand:
     def __init__(self, uvsim, operand):
@@ -21,7 +47,9 @@ class UVSimOutputCommand:
         self.operand = operand
 
     def execute(self):
-        print(self.uvsim.get_memory().read(self.operand))
+        output = self.uvsim.get_memory().read(self.operand)
+        self.uvsim.output = f"Output: {output}"
+        print(output)
 
 class UVSimLoadCommand:
     def __init__(self, uvsim, operand):

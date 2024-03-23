@@ -1,7 +1,10 @@
 from uvsim import UVSim
 import sys
-from UVSimGUI import UVSimGUI
+from uvsimgui import UVSimGUI
 import tkinter as tk
+
+"""
+LEGACY CLI CODE
 def main():
     if len(sys.argv) != 2:
         print("Usage: python main.py <path to program>")
@@ -33,7 +36,7 @@ def main():
             print(f"Successfully loaded program into memory. Executing...")
 
     sim.run()
-
+"""
 
 if __name__ == "__main__":
     root = tk.Tk()

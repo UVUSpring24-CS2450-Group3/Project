@@ -14,6 +14,7 @@ class UVSimGUI:
         """
         self.master = master
         self.uv_sim = UVSim()
+        self.uv_sim.gui_handle = self
 
         # Load color scheme from config file or use default UVU colors
         self.primary_color = "#4C721D"  # Dark green
@@ -32,20 +33,26 @@ class UVSimGUI:
 
     def create_widgets(self):
         """Create GUI widgets."""
+        self.input_ready_for_sim = False
+        self.sim_needs_input = False
+        self.loaded_program = False
         # Output display
         self.output_label = tk.Label(self.master, text="Output:")
         self.output_label.pack()
         self.output_text = tk.Text(self.master, height=10, width=50, bg=self.off_color, fg="black")
         self.output_text.pack()
 
+        self.button_frame = tk.Frame(self.master)
+
         # Input entry
         self.input_label = tk.Label(self.master, text="Console Input:")
         self.input_label.pack()
         self.input_entry = tk.Entry(self.master, width=50, bg=self.off_color, fg="black")
         self.input_entry.pack()
+        self.commit_input_button = tk.Button(self.button_frame, text="Enter", command=self.check_input, bg=self.primary_color, fg="black")
+        self.commit_input_button.pack()
 
         # Buttons
-        self.button_frame = tk.Frame(self.master)
         self.load_button = tk.Button(self.button_frame, text="Load Program", command=self.load_program, bg=self.primary_color, fg="black")
         self.load_button.pack(side=tk.LEFT)
         self.run_button = tk.Button(self.button_frame, text="Run Program", command=self.run_program, bg=self.primary_color, fg="black")
@@ -72,6 +79,7 @@ class UVSimGUI:
         off_color_label.grid(row=1, column=0)
         off_color_button = tk.Button(settings_window, text="Choose", command=self.choose_off_color)
         off_color_button.grid(row=1, column=1)
+        
 
     def choose_primary_color(self):
         """Open color chooser for primary color selection."""
@@ -104,32 +112,46 @@ class UVSimGUI:
                 try:
                     program = [int(num.strip()) for num in raw_numbers]
                     self.uv_sim.loadProgram(program)
-                    self.write_output("Program loaded successfully.")
+                    self.write_output("Program loaded successfully.\n")
+                    self.loaded_program = True
                 except ValueError:
-                    self.write_output("Error: Invalid program format.")
+                    self.write_output("Error: Invalid program format.\n")
 
         self.uv_sim.start()
 
-    def enter_input(self):
-        """Enter input for the program."""
-        try:
-            value = int(self.input_entry.get())
-            if value > 9999 or value < -9999:
-                raise ValueError()
-        except ValueError:
-            self.output_text.insert(tk.END, "Enter a value between -9999 and 9999 (inclusive)\n")
+    def check_input(self):
+        if self.sim_needs_input:
+            """Enter input for the program."""
+            try:
+                value = int(self.input_entry.get())
+                if value > 9999 or value < -9999:
+                    raise ValueError()
+
+                self.input_ready_for_sim = True
+                self.run_program()
+            except ValueError:
+                self.write_output("Enter a value between -9999 and 9999 (inclusive)\n")
+
+
+        else:
+            self.write_output("Program is not yet ready for input!\n")
+
+    def get_output_text(self):
+        return self.input_entry.get() if self.input_entry.get() else None
+
+    def clear_output_text(self):
+        self.input_entry.delete(0, tk.END)
 
     def run_program(self):
+        if not self.loaded_program:
+            self.write_output("Program has not been loaded!\n")
+            return
         """Run the loaded program."""
-        if self.uv_sim.required_input:
-            self.uv_sim.input = self.input_entry.get()
-            self.uv_sim.hasInput = True
-            self.uv_sim.required_input = False
 
-        while(self.uv_sim.running):
+        while self.uv_sim.running:
             output = self.uv_sim.step()
             self.write_output(output)
-            if self.uv_sim.required_input:
+            if self.sim_needs_input:
                 break
 
     def display_output(self):
