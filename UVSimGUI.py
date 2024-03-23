@@ -30,7 +30,9 @@ class UVSimGUI:
         Args:
             line (str): The line to be written.
         """
+        self.output_text.config(state=tk.NORMAL)
         self.output_text.insert(tk.END, line)
+        self.output_text.config(state=tk.DISABLED)
 
     def create_widgets(self):
         """Create GUI widgets."""
@@ -41,6 +43,7 @@ class UVSimGUI:
         self.output_label = tk.Label(self.master,bg=self.primary_color, text="Output:")
         self.output_label.pack()
         self.output_text = tk.Text(self.master, height=10, width=50, bg=self.off_color, fg="black")
+        self.output_text.config(state=tk.DISABLED)
         self.output_text.pack()
 
         self.button_frame = tk.Frame(self.master, bg=self.primary_color)
