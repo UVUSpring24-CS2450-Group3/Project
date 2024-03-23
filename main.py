@@ -40,4 +40,3 @@ if __name__ == "__main__":
     root.title("UVSim GUI")
     app = UVSimGUI(root)
     root.mainloop()
-    main()
