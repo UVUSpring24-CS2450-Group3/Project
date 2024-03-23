@@ -109,6 +109,11 @@ class UVSimGUI:
         if filename:
             with open(filename, "r") as file:
                 program_data = file.read()
+                
+        data_split = program_data.split("\n")
+        if len(data_split) > 100:
+            self.write_output("Error: Program size exceeds maximum allowed size of 100 entries (#00 - #99).\n")
+            return
 
         self.open_program_edit_window(program_data)
 
