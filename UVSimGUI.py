@@ -124,12 +124,9 @@ class UVSimGUI:
             with open(filename, "r") as file:
                 program_data = file.read()
                 
-        data_split = program_data.split("\n")
+            data_split = program_data.split("\n")
 
-
-        if self.validate_program(data_split):
             self.open_program_edit_window(program_data)
-
 
     def open_program_edit_window(self, program):
         self.program_window = tk.Toplevel(self.master)
