@@ -126,8 +126,10 @@ class UVSimGUI:
                 
         data_split = program_data.split("\n")
 
+
         if self.validate_program(data_split):
             self.open_program_edit_window(program_data)
+
 
     def open_program_edit_window(self, program):
         self.program_window = tk.Toplevel(self.master)
@@ -136,9 +138,18 @@ class UVSimGUI:
 
         self.program_text.pack(expand=True, fill=tk.BOTH)
 
-        self.save_and_run_button = tk.Button(self.program_window, text="Run Code", command=self.validate_and_run_program)
-        self.save_and_run_button.pack()
+        self.save_run_button = tk.Button(self.program_window, text="Run Code", command=self.validate_and_run_program)
+        self.save_run_button.pack()
+        self.save_button = tk.Button(self.program_window, text="Save Code", command=self.save_code)
+        self.save_button.pack()
         
+    def save_code(self):
+        filename = filedialog.asksaveasfile(mode='w', defaultextension='.txt')
+        if filename is None:
+            return
+        text_to_save = str(self.program_text.get(1.0, tk.END))
+        filename.write(text_to_save)
+        filename.close()
 
     def validate_and_run_program(self):
         program_data = self.program_text.get(0.0, "end-1c")
