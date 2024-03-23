@@ -132,8 +132,8 @@ class UVSimGUI:
 
         self.program_text.pack(expand=True, fill=tk.BOTH)
 
-        self.save_and_run_button = tk.Button(self.program_window, text="Run Code", command=self.validate_and_run_program)
-        self.save_and_run_button.pack()
+        self.save_run_button = tk.Button(self.program_window, text="Run Code", command=self.validate_and_run_program)
+        self.save_run_button.pack()
         self.save_button = tk.Button(self.program_window, text="Save Code", command=self.save_code)
         self.save_button.pack()
         
