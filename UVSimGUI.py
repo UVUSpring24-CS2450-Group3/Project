@@ -21,6 +21,7 @@ class UVSimGUI:
         self.off_color = "#FFFFFF"       # White
 
         self.create_widgets()
+        self.master.config(bg=self.primary_color)
 
     def write_output(self, line):
         """
@@ -29,7 +30,9 @@ class UVSimGUI:
         Args:
             line (str): The line to be written.
         """
+        self.output_text.config(state=tk.NORMAL)
         self.output_text.insert(tk.END, line)
+        self.output_text.config(state=tk.DISABLED)
 
     def create_widgets(self):
         """Create GUI widgets."""
@@ -37,30 +40,31 @@ class UVSimGUI:
         self.sim_needs_input = False
         self.loaded_program = False
         # Output display
-        self.output_label = tk.Label(self.master, text="Output:")
+        self.output_label = tk.Label(self.master,bg=self.primary_color, text="Output:")
         self.output_label.pack()
         self.output_text = tk.Text(self.master, height=10, width=50, bg=self.off_color, fg="black")
+        self.output_text.config(state=tk.DISABLED)
         self.output_text.pack()
 
-        self.button_frame = tk.Frame(self.master)
+        self.button_frame = tk.Frame(self.master, bg=self.primary_color)
 
         # Input entry
-        self.input_label = tk.Label(self.master, text="Console Input:")
+        self.input_label = tk.Label(self.master, bg=self.primary_color, text="Console Input:")
         self.input_label.pack()
         self.input_entry = tk.Entry(self.master, width=50, bg=self.off_color, fg="black")
         self.input_entry.pack()
-        self.commit_input_button = tk.Button(self.button_frame, text="Enter", command=self.check_input, bg=self.primary_color, fg="black")
+        self.commit_input_button = tk.Button(self.button_frame, text="Enter", command=self.check_input, bg=self.off_color, fg="black")
         self.commit_input_button.pack()
 
         # Buttons
-        self.load_button = tk.Button(self.button_frame, text="Load Program", command=self.load_program, bg=self.primary_color, fg="black")
+        self.load_button = tk.Button(self.button_frame, text="Load Program", command=self.load_program, bg=self.off_color, fg="black")
         self.load_button.pack(side=tk.LEFT)
-        self.run_button = tk.Button(self.button_frame, text="Run Program", command=self.run_program, bg=self.primary_color, fg="black")
+        self.run_button = tk.Button(self.button_frame, text="Run Program", command=self.run_program, bg=self.off_color, fg="black")
         self.run_button.pack(side=tk.LEFT)
         self.button_frame.pack()
 
         # Settings button
-        self.settings_button = tk.Button(self.master, text="Settings", command=self.open_settings, bg=self.primary_color, fg="black")
+        self.settings_button = tk.Button(self.master, text="Settings", command=self.open_settings, bg=self.off_color, fg="black")
         self.settings_button.pack()
 
     def open_settings(self):
@@ -97,11 +101,15 @@ class UVSimGUI:
 
     def apply_color_scheme(self):
         """Apply selected color scheme to GUI."""
-        self.output_text.config(bg=self.off_color)
-        self.input_entry.config(bg=self.off_color)
-        self.load_button.config(bg=self.primary_color)
-        self.run_button.config(bg=self.primary_color)
-        self.settings_button.config(bg=self.primary_color)
+        self.master.config(bg=self.primary_color)
+        self.button_frame.config(bg=self.primary_color)
+        self.input_label.config(bg=self.primary_color)
+        self.output_label.config(bg=self.primary_color)
+
+        self.load_button.config(bg=self.off_color)
+        self.run_button.config(bg=self.off_color)
+        self.settings_button.config(bg=self.off_color)
+        self.commit_input_button.config(bg=self.off_color)
 
     def load_program(self):
         """Load a program from file."""
