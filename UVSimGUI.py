@@ -22,6 +22,22 @@ class UVSimGUI:
 
         self.create_widgets()
         self.master.config(bg=self.primary_color)
+        
+    def convert_to_six_digit_format(self, filename):
+        try:
+            new_filename = os.path.splitext(filename)[0] + "_six_digit_format.txt"
+
+            with open(filename, "r") as file:
+                lines = file.readlines()
+
+            converted_lines = [f"{int(line.strip()):06}" for line in lines]
+
+            with open(new_filename, "w") as new_file:
+                new_file.write("\n".join(converted_lines))
+
+            self.write_output(f"Conversion successful. New file saved as {new_filename}\n")
+        except Exception as e:
+            self.write_output(f"Conversion failed: {str(e)}\n")
 
     def validate_program(self, program):
         if len(program) > 250:
@@ -39,7 +55,13 @@ class UVSimGUI:
         self.output_text.config(state=tk.NORMAL)
         self.output_text.insert(tk.END, line)
         self.output_text.config(state=tk.DISABLED)
-
+        
+    def convert_file(self):
+        """Prompt the user to select a file for conversion."""
+        filename = filedialog.askopenfilename()
+        if filename:
+            self.convert_to_six_digit_format(filename)
+            
     def create_widgets(self):
         """Create GUI widgets."""
         self.input_ready_for_sim = False
@@ -72,6 +94,10 @@ class UVSimGUI:
         # Settings button
         self.settings_button = tk.Button(self.master, text="Settings", command=self.open_settings, bg=self.off_color, fg="black")
         self.settings_button.pack()
+
+        self.convert_button = tk.Button(self.button_frame, text="Convert to Six-Digit Format", command=self.convert_file, bg=self.off_color, fg="black")
+            self.convert_button.pack(side=tk.LEFT)
+
 
     def open_settings(self):
         """Open settings window for color configuration."""
@@ -211,5 +237,5 @@ class UVSimGUI:
         for line in self.uv_sim.debug_output:
             self.output_text.insert(tk.END, line + "\n")
 
-
+    
 
