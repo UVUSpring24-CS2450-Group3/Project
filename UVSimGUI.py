@@ -23,6 +23,12 @@ class UVSimGUI:
         self.create_widgets()
         self.master.config(bg=self.primary_color)
 
+    def validate_program(self, program):
+        if len(program) > 250:
+            self.write_output("Error: Program size exceeds maximum allowed size of 250 lines (#000 - #249).\n")
+            return False
+        return True
+
     def write_output(self, line):
         """
         Write output to the output text area.
@@ -126,7 +132,9 @@ class UVSimGUI:
                 
             data_split = program_data.split("\n")
 
-            self.open_program_edit_window(program_data)
+            if self.validate_program(data_split):
+                self.open_program_edit_window(program_data)
+
 
     def open_program_edit_window(self, program):
         self.program_window = tk.Toplevel(self.master)
