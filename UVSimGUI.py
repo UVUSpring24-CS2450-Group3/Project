@@ -61,6 +61,7 @@ class UVSimGUI:
         filename = filedialog.askopenfilename()
         if filename:
             self.convert_to_six_digit_format(filename)
+
             
     def create_widgets(self):
         """Create GUI widgets."""
