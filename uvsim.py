@@ -8,7 +8,7 @@ class UVSim:
 
     def reset(self):
         # Create memory with length 100 words
-        self.memory = UVSimMemory(100) 
+        self.memory = UVSimMemory(250) 
 
         # used to verify the presence of input for the GUI
         self.hasInput = False
