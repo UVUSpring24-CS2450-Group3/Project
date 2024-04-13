@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, colorchooser
+from tkinter import ttk
 from uvsim import UVSim
 import os
 
@@ -64,12 +65,21 @@ class UVSimGUI:
         self.input_ready_for_sim = False
         self.sim_needs_input = False
         self.loaded_program = False
+
+        self.tabController = ttk.Notebook(self.master)
+        self.tabController.pack(expand=1, fill=tk.BOTH)
+
+        #initialize the tab management lists
+        self.tabList = []
+        self.output_text_list = []
+
         # Output display
         self.output_label = tk.Label(self.master,bg=self.primary_color, text="Output:")
         self.output_label.pack()
-        self.output_text = tk.Text(self.master, height=10, width=50, bg=self.off_color, fg="black")
-        self.output_text.config(state=tk.DISABLED)
-        self.output_text.pack()
+
+        self.make_new_file_tab()
+
+        self.tabController.add(self.tabList[0], text='Prog. 1')
 
         self.button_frame = tk.Frame(self.master, bg=self.primary_color)
 
@@ -95,6 +105,19 @@ class UVSimGUI:
         self.convert_button = tk.Button(self.button_frame, text="Convert to Six-Digit Format", command=self.convert_file, bg=self.off_color, fg="black")
         self.convert_button.pack(side=tk.LEFT)
 
+        self.open_file_button = tk.Button(self.button_frame, text="Open New File",
+                                        command=self.make_new_file_tab, bg=self.off_color, fg="black")
+        self.open_file_button.pack(side=tk.LEFT)
+
+
+    def make_new_file_tab(self):
+        self.tabList.append(ttk.Frame(self.tabController))
+        tab_count = len(self.tabList) - 1
+        self.output_text_list.append(tk.Text(self.tabList[tab_count], height=10, width=50, bg=self.off_color, fg="black"))
+        self.output_text_list[tab_count].config(state=tk.DISABLED)
+        self.output_text_list[tab_count].pack()
+
+        self.tabController.add(self.tabList[tab_count], text='Prog. ' + str(len(self.tabList)))
 
     def open_settings(self):
         """Open settings window for color configuration."""
@@ -148,6 +171,7 @@ class UVSimGUI:
 
     def load_program(self):
         """Load a program from file."""
+        #reset the sim when loading a new program into memory
         filename = filedialog.askopenfilename()
         if filename:
             with open(filename, "r") as file:

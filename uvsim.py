@@ -38,6 +38,9 @@ class UVSim:
         return self.memory.read(address)
     
     def loadProgram(self, data):
+        #reset the sim when running a new program
+        self.reset()
+
         # Verify we can copy all program data into memory
         if len(data) > self.memory.get_size():
             return False
