@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, colorchooser
 from uvsim import UVSim
+import os
 
 class UVSimGUI:
     """A GUI for the UVSim application."""
@@ -39,11 +40,6 @@ class UVSimGUI:
         except Exception as e:
             self.write_output(f"Conversion failed: {str(e)}\n")
 
-    def validate_program(self, program):
-        if len(program) > 250:
-            self.write_output("Error: Program size exceeds maximum allowed size of 250 lines (#000 - #249).\n")
-            return False
-        return True
 
     def write_output(self, line):
         """
@@ -97,7 +93,7 @@ class UVSimGUI:
         self.settings_button.pack()
 
         self.convert_button = tk.Button(self.button_frame, text="Convert to Six-Digit Format", command=self.convert_file, bg=self.off_color, fg="black")
-            self.convert_button.pack(side=tk.LEFT)
+        self.convert_button.pack(side=tk.LEFT)
 
 
     def open_settings(self):
@@ -145,8 +141,8 @@ class UVSimGUI:
         self.commit_input_button.config(bg=self.off_color)
 
     def validate_program(self, program):
-        if len(program) > 100:
-            self.write_output("Error: Program size exceeds maximum allowed size of 100 entries (#00 - #99).\n")
+        if len(program) > 250:
+            self.write_output("Error: Program size exceeds maximum allowed size of 250 entries (#00 - #249).\n")
             return False
         return True
 
@@ -231,12 +227,3 @@ class UVSimGUI:
             self.write_output(output)
             if self.sim_needs_input:
                 break
-
-    def display_output(self):
-        """Display the output of the program."""
-        self.output_text.delete(1.0, tk.END)  # Clear previous output
-        for line in self.uv_sim.debug_output:
-            self.output_text.insert(tk.END, line + "\n")
-
-    
-
