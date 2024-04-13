@@ -205,6 +205,9 @@ class UVSimGUI:
         filename.close()
 
     def validate_and_run_program(self):
+        if self.uv_sim.running:
+            self.write_output("Another program is executing in another tab. Finsh that one before executing another.\n")
+            return
         program_data = self.program_text.get(0.0, "end-1c")
         data_split = program_data.split("\n")
         data = [int(x.strip()) for x in data_split]

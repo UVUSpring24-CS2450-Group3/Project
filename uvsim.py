@@ -4,6 +4,7 @@ from uvsiminstructions import *
 class UVSim:
     def __init__(self, debug=False):
         self.debug = debug
+        self.gui_handle = None
         self.reset()
 
     def reset(self):
