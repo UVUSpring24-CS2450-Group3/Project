@@ -49,9 +49,10 @@ class UVSimGUI:
         Args:
             line (str): The line to be written.
         """
-        self.output_text.config(state=tk.NORMAL)
-        self.output_text.insert(tk.END, line)
-        self.output_text.config(state=tk.DISABLED)
+        current_tab = self.tabController.index(self.tabController.select())
+        self.output_text_list[current_tab].config(state=tk.NORMAL)
+        self.output_text_list[current_tab].insert(tk.END, line)
+        self.output_text_list[current_tab].config(state=tk.DISABLED)
         
     def convert_file(self):
         """Prompt the user to select a file for conversion."""
