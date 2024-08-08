@@ -38,3 +38,69 @@ Working Prototype  (40 pts) -- prototype of your application that works from the
 Unit Tests (30 pts) -- each use case should have two unit tests (so 20-30 total) to test the functionality of each use case (you can have more if you deem it suitable for that use case -- remember that unit tests in general need to test both the success condition(s) for each function as well as all possible failure conditions as well.).   The code for the unit tests should also be part of your source control code base.     You will also create a spreadsheet that lists the unit tests in row/column form.  Give each unit test a name, short description, the reference to the appropriate use case, inputs, expected outputs, and how you know whether the test succeeded or failed.
 
 Other Documents (10 pts) -- Create a README.txt text file that describes how to use your application from the command line.  The grader should not need any information outside of your README to understand how to launch and use your application.  Make sure you note here if the programming language you used for the project requires some prerequisites to be installed ahead of time in order for your project to run. In addition to README, also submit your meeting reports from this sprint.
+
+
+To find the PDF of 
+𝑉
+=
+max
+⁡
+(
+𝑋
+,
+𝑌
+)
+V=max(X,Y), given the joint PDF 
+𝑓
+𝑋
+𝑌
+(
+𝑥
+,
+𝑦
+)
+f 
+XY
+​
+ (x,y), we can proceed as follows:
+
+Step-by-Step Solution
+1. Joint PDF of 
+𝑋
+X and 
+𝑌
+Y:
+The joint PDF of 
+𝑋
+X and 
+𝑌
+Y is given by:
+
+2, & 0 \leq y \leq x \leq 1 \\
+0, & \text{otherwise}
+\end{cases} \]
+#### 2. CDF of \( V \):
+The cumulative distribution function (CDF) of \( V \), \( F_V(v) \), is the probability that \( V \) is less than or equal to \( v \):
+\[ F_V(v) = P(V \leq v) = P(\max(X, Y) \leq v) \]
+This is equivalent to the probability that both \( X \) and \( Y \) are less than or equal to \( v \):
+\[ F_V(v) = P(X \leq v, Y \leq v) \]
+We need to integrate the joint PDF over the appropriate region:
+\[ F_V(v) = \int_{0}^{v} \int_{0}^{y} f_{XY}(x, y) \, dx \, dy \]
+Given the joint PDF:
+\[ F_V(v) = \int_{0}^{v} \int_{0}^{y} 2 \, dx \, dy \]
+Perform the inner integration first:
+\[ F_V(v) = \int_{0}^{v} \left[ 2x \right]_{0}^{y} \, dy \]
+\[ F_V(v) = \int_{0}^{v} 2y \, dy \]
+Now, integrate with respect to \( y \):
+\[ F_V(v) = \left[ y^2 \right]_{0}^{v} \]
+\[ F_V(v) = v^2 \]
+Thus, the CDF of \( V \) is:
+\[ F_V(v) = v^2, \quad 0 \leq v \leq 1 \]
+#### 3. PDF of \( V \):
+The PDF \( f_V(v) \) is the derivative of the CDF \( F_V(v) \):
+\[ f_V(v) = \frac{d}{dv} F_V(v) = \frac{d}{dv} (v^2) = 2v \]
+So, the PDF of \( V \) is:
+\[ f_V(v) = 2v, \quad 0 \leq v \leq 1 \]
+### Summary
+The PDF of \( V = \max(X, Y) \) is:
+\[ f_V(v) = 2v, \quad 0 \leq v \leq 1 \]
